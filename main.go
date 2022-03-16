@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
 	"runtime"
-
+	"syscall"
+	"time"
 
 	"startup-backend/config"
 	"startup-backend/routes"
-
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
@@ -17,6 +18,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/etag"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
+
+const idleTimeout = 5 * time.Second
 
 func main() {
 	numOfCores := runtime.NumCPU()
@@ -47,6 +50,7 @@ func main() {
 			// Return from handler
 			return nil
 		},
+		IdleTimeout: idleTimeout,
 	})
 	// will compress the response using gzip, deflate and brotli compression depending on the Accept-Encoding header.
 	app.Use(compress.New())
@@ -91,5 +95,25 @@ func main() {
 	// setup not found 404 response
 	config.NotFoundConfig(app)
 	// start listen app
-	log.Fatal(app.Listen(":" + config.GoDotEnvVariable("APP_PORT")))
+	// log.Fatal(app.Listen(":" + config.GoDotEnvVariable("APP_PORT")))
+
+	go func() {
+		if err := app.Listen(":" + config.GoDotEnvVariable("APP_PORT")); err != nil {
+			log.Panic(err)
+		}
+	}()
+
+	c := make(chan os.Signal, 1)                    // Create channel to signify a signal being sent
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM) // When an interrupt or termination signal is sent, notify the channel
+
+	_ = <-c // This blocks the main thread until an interrupt is received
+	fmt.Println("Gracefully shutting down...")
+	_ = app.Shutdown()
+
+	fmt.Println("Running cleanup tasks...")
+
+	// Your cleanup tasks go here
+	// db.Close()
+	// redisConn.Close()
+	fmt.Println("Fiber was successful shutdown.")
 }
