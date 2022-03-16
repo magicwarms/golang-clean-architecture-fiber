@@ -26,14 +26,17 @@ func NotFoundConfig(app *fiber.App) {
 // return the value of the key
 func GoDotEnvVariable(key string) string {
 
-	// load .env file
-	err := godotenv.Load("../environments/.env.localdev")
-
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-		panic("Error loading .env file")
+	// // load .env file
+	env := os.Getenv("APPLICATION_ENV")
+	if env == "" {
+		env = "localdev"
 	}
 
+	err := godotenv.Load("./environments/.env." + env)
+	if err != nil {
+		log.Fatalf("Error loading .env file" + env)
+		panic("Error loading .env file")
+	}
 	return os.Getenv(key)
 }
 
