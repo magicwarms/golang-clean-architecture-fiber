@@ -3,9 +3,11 @@ package routes
 import (
 	"net/http"
 
+
 	"startup-backend/config"
 
 	"github.com/gofiber/fiber/v2"
+
 )
 
 // AppRoutes is all routes in app

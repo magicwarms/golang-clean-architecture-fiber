@@ -6,8 +6,10 @@ import (
 	"os"
 	"runtime"
 
+
 	"startup-backend/config"
 	"startup-backend/routes"
+
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
