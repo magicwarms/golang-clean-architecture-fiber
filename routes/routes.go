@@ -3,8 +3,9 @@ package routes
 import (
 	"net/http"
 
+	"startup-backend/config"
+
 	"github.com/gofiber/fiber/v2"
-	"github.com/magicwarms/startup-backend/config"
 )
 
 // AppRoutes is all routes in app
