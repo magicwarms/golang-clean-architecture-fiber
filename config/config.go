@@ -14,11 +14,7 @@ import (
 // NotFoundConfig is to handle route 404 not found exception
 func NotFoundConfig(app *fiber.App) {
 	app.Use(func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusNotFound).JSON(AppResponse{
-			Code:    fiber.StatusNotFound,
-			Message: "Route not found",
-			Data:    nil,
-		})
+		return c.Status(fiber.StatusNotFound).JSON(AppResponse(fiber.StatusNotFound, "Route not found", nil))
 	})
 }
 
@@ -41,10 +37,12 @@ func GoDotEnvVariable(key string) string {
 }
 
 // AppResponse is for response config show to Frontend side
-type AppResponse struct {
-	Code    int         `json:"code"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data"`
+func AppResponse(code int, message string, data interface{}) *fiber.Map {
+	return &fiber.Map{
+		"code":    code,
+		"message": message,
+		"data":    data,
+	}
 }
 
 // Timer will measure how long it takes before a response is returned

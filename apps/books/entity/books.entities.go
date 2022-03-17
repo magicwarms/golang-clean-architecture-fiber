@@ -1,4 +1,4 @@
-package models
+package entity
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// Books model
+// Book Constructs your Book model under entities.
 type Books struct {
 	ID        string         `gorm:"default:uuid_generate_v4();primaryKey" json:"id"`
 	Title     string         `gorm:"index" json:"title"`
@@ -17,7 +17,6 @@ type Books struct {
 }
 
 //DEFINE HOOKS
-
 func (book *Books) BeforeCreate(tx *gorm.DB) (err error) {
 	fmt.Println("Before create data", book)
 	return

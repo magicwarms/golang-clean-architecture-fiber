@@ -3,11 +3,13 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"runtime"
 
+	"startup-backend/apps/books"
+	Books "startup-backend/apps/books/route"
 	"startup-backend/config"
-	"startup-backend/routes"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
@@ -37,11 +39,7 @@ func main() {
 		// Override default error handler
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
 			if err != nil {
-				return c.Status(fiber.StatusInternalServerError).JSON(config.AppResponse{
-					Code:    fiber.StatusInternalServerError,
-					Message: "Internal Server Error - " + err.Error(),
-					Data:    nil,
-				})
+				return c.Status(fiber.StatusInternalServerError).JSON(config.AppResponse(fiber.StatusInternalServerError, "Internal Server Error - "+err.Error(), nil))
 			}
 			// Return from handler
 			return nil
@@ -87,10 +85,23 @@ func main() {
 		// Go to next middleware:
 		return c.Next()
 	})
-	// setup routes list
-	routes.AppRoutes(app)
+	// setup initial routes
+	apiV1 := app.Group("/api/v1")
+	apiV1.Get("/test", func(c *fiber.Ctx) error {
+		return c.Status(http.StatusOK).JSON(config.AppResponse(http.StatusOK, "THE API IS RUNNING NOW", nil))
+	})
+	apiV1.Get("/stack", func(c *fiber.Ctx) error {
+		return c.JSON(c.App().Stack())
+	})
+	DBConnection := config.InitDatabase()
+
+	bookRepo := books.NewRepo(DBConnection)
+	bookService := books.NewService(bookRepo)
+	Books.BookRouter(apiV1, bookService)
+
 	// setup not found 404 response
 	config.NotFoundConfig(app)
+
 	// running the app
 	fmt.Println("⚡️ [" + config.GoDotEnvVariable("APPLICATION_ENV") + "] - " + config.GoDotEnvVariable("APP_NAME") + " IS RUNNING ON PORT - " + config.GoDotEnvVariable("APP_PORT"))
 	// start listen app

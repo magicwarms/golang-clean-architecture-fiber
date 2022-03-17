@@ -9,21 +9,12 @@ import (
 )
 
 // GetAllBooks is to get all books data
-func GetAllBooks(c *fiber.Ctx) error {
-	getAllBooks := repositories.GetAllBooks()
-	if len(getAllBooks) < 0 {
-		return c.JSON(config.AppResponse{
-			Code:    http.StatusOK,
-			Message: "NOT-FOUND",
-			Data:    nil,
-		})
+func GetAllBooks(bookService BookService) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		getAllBooks, _ := bookService.FetchBooks()
+		return c.Status(http.StatusOK).JSON(config.AppResponse(http.StatusOK, "OK", getAllBooks))
 	}
 
-	return c.JSON(config.AppResponse{
-		Code:    http.StatusOK,
-		Message: "OK",
-		Data:    getAllBooks,
-	})
 }
 
 // // GetBook is to get one book data

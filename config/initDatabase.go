@@ -4,13 +4,12 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"startup-backend/apps/books/entity"
 	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-
-	"startup-backend/apps/models"
 )
 
 var (
@@ -19,7 +18,7 @@ var (
 )
 
 // InitDatabase is initial Setup for DB Connection
-func init() {
+func InitDatabase() *gorm.DB {
 	var err error
 	dsn := "host=" + GoDotEnvVariable("DB_HOST") + " user=" + GoDotEnvVariable("DB_USERNAME") + " password=" + GoDotEnvVariable("DB_PASSWORD") + " dbname=" + GoDotEnvVariable("DB_DATABASE") + " port=" + GoDotEnvVariable("DB_PORT") + " sslmode=disable TimeZone=" + GoDotEnvVariable("TZ")
 	appEnv := GoDotEnvVariable("APPLICATION_ENV")
@@ -59,6 +58,8 @@ func init() {
 	// SetConnMaxLifetime sets the maximum amount of time a connection may be reused.
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
-	DB.AutoMigrate(models.Books{})
-	fmt.Println("Connection Opened to Database")
+	DB.AutoMigrate(entity.Books{})
+	fmt.Println("DB Connection opened!")
+
+	return DB
 }
