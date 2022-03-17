@@ -3,11 +3,9 @@ package routes
 import (
 	"net/http"
 
-
 	"startup-backend/config"
 
 	"github.com/gofiber/fiber/v2"
-
 )
 
 // AppRoutes is all routes in app
@@ -16,7 +14,7 @@ func AppRoutes(app *fiber.App) {
 	v1.Get("/test", func(c *fiber.Ctx) error {
 		return c.JSON(config.AppResponse{
 			Code:    http.StatusOK,
-			Message: "SUCCESS",
+			Message: "THE API IS RUNNING NOW",
 			Data:    nil,
 		})
 	})

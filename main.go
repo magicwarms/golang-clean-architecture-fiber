@@ -4,10 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"os/signal"
 	"runtime"
-	"syscall"
-	"time"
 
 	"startup-backend/config"
 	"startup-backend/routes"
@@ -16,10 +13,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/etag"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
-
-const idleTimeout = 5 * time.Second
 
 func main() {
 	numOfCores := runtime.NumCPU()
@@ -31,7 +27,7 @@ func main() {
 		fmt.Printf("[%d] MASTER\n", os.Getppid())
 	}
 	enablePrefork := false
-	if config.GoDotEnvVariable("APP_ENV") == "production" {
+	if config.GoDotEnvVariable("APPLICATION_ENV") == "production" {
 		enablePrefork = true
 	}
 	app := fiber.New(fiber.Config{
@@ -50,7 +46,6 @@ func main() {
 			// Return from handler
 			return nil
 		},
-		IdleTimeout: idleTimeout,
 	})
 	// will compress the response using gzip, deflate and brotli compression depending on the Accept-Encoding header.
 	app.Use(compress.New())
@@ -61,17 +56,19 @@ func main() {
 		AllowMethods: "GET,POST,PUT,DELETE",
 	}))
 	// Logger middleware for Fiber that logs HTTP request/response details.
-	// file, err := os.OpenFile("./logs/app-logging.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	// if err != nil {
-	// 	log.Fatalf("error opening file: %v", err)
-	// }
-	// defer file.Close()
-	// app.Use(logger.New(logger.Config{
-	// 	Output:     file,
-	// 	Format:     "${pid} [${time}] | [${host} - ${ip}] | ${status} - ${latency} - ${method} | ${path} || ${error}\n",
-	// 	TimeFormat: "02-Jan-2006 15:04:05",
-	// 	TimeZone:   "Asia/Jakarta",
-	// }))
+	file, err := os.OpenFile("./logs/app-logging.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	defer file.Close()
+
+	app.Use(logger.New(logger.Config{
+		Output:     file,
+		Format:     "${pid} [${time}] | [${host} - ${ip}] | ${status} - ${latency} - ${method} | ${path} || ${error}\n",
+		TimeFormat: "02-Jan-2006 15:04:05",
+		TimeZone:   "Asia/Jakarta",
+	}))
+
 	// To recover from a panic thrown by any handler in the stack
 	app.Use(recover.New())
 	// for Fiber to let's caches be more efficient and save bandwidth,
@@ -94,26 +91,9 @@ func main() {
 	routes.AppRoutes(app)
 	// setup not found 404 response
 	config.NotFoundConfig(app)
+	// running the app
+	fmt.Println("⚡️ [" + config.GoDotEnvVariable("APPLICATION_ENV") + "] - " + config.GoDotEnvVariable("APP_NAME") + " IS RUNNING ON PORT - " + config.GoDotEnvVariable("APP_PORT"))
 	// start listen app
-	// log.Fatal(app.Listen(":" + config.GoDotEnvVariable("APP_PORT")))
+	log.Fatal(app.Listen(":" + config.GoDotEnvVariable("APP_PORT")))
 
-	go func() {
-		if err := app.Listen(":" + config.GoDotEnvVariable("APP_PORT")); err != nil {
-			log.Panic(err)
-		}
-	}()
-
-	c := make(chan os.Signal, 1)                    // Create channel to signify a signal being sent
-	signal.Notify(c, os.Interrupt, syscall.SIGTERM) // When an interrupt or termination signal is sent, notify the channel
-
-	_ = <-c // This blocks the main thread until an interrupt is received
-	fmt.Println("Gracefully shutting down...")
-	_ = app.Shutdown()
-
-	fmt.Println("Running cleanup tasks...")
-
-	// Your cleanup tasks go here
-	// db.Close()
-	// redisConn.Close()
-	fmt.Println("Fiber was successful shutdown.")
 }
