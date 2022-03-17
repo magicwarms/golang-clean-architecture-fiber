@@ -3,18 +3,19 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"runtime"
 
-
+	"startup-backend/apps/books"
+	Books "startup-backend/apps/books/route"
 	"startup-backend/config"
-	"startup-backend/routes"
-
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/etag"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
@@ -28,7 +29,7 @@ func main() {
 		fmt.Printf("[%d] MASTER\n", os.Getppid())
 	}
 	enablePrefork := false
-	if config.GoDotEnvVariable("APP_ENV") == "production" {
+	if config.GoDotEnvVariable("APPLICATION_ENV") == "production" {
 		enablePrefork = true
 	}
 	app := fiber.New(fiber.Config{
@@ -38,11 +39,7 @@ func main() {
 		// Override default error handler
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
 			if err != nil {
-				return c.Status(fiber.StatusInternalServerError).JSON(config.AppResponse{
-					Code:    fiber.StatusInternalServerError,
-					Message: "Internal Server Error - " + err.Error(),
-					Data:    nil,
-				})
+				return c.Status(fiber.StatusInternalServerError).JSON(config.AppResponse(fiber.StatusInternalServerError, "Internal Server Error - "+err.Error(), nil))
 			}
 			// Return from handler
 			return nil
@@ -57,17 +54,19 @@ func main() {
 		AllowMethods: "GET,POST,PUT,DELETE",
 	}))
 	// Logger middleware for Fiber that logs HTTP request/response details.
-	// file, err := os.OpenFile("./logs/app-logging.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	// if err != nil {
-	// 	log.Fatalf("error opening file: %v", err)
-	// }
-	// defer file.Close()
-	// app.Use(logger.New(logger.Config{
-	// 	Output:     file,
-	// 	Format:     "${pid} [${time}] | [${host} - ${ip}] | ${status} - ${latency} - ${method} | ${path} || ${error}\n",
-	// 	TimeFormat: "02-Jan-2006 15:04:05",
-	// 	TimeZone:   "Asia/Jakarta",
-	// }))
+	file, err := os.OpenFile("./logs/app-logging.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	defer file.Close()
+
+	app.Use(logger.New(logger.Config{
+		Output:     file,
+		Format:     "${pid} [${time}] | [${host} - ${ip}] | ${status} - ${latency} - ${method} | ${path} || ${error}\n",
+		TimeFormat: "02-Jan-2006 15:04:05",
+		TimeZone:   "Asia/Jakarta",
+	}))
+
 	// To recover from a panic thrown by any handler in the stack
 	app.Use(recover.New())
 	// for Fiber to let's caches be more efficient and save bandwidth,
@@ -86,10 +85,26 @@ func main() {
 		// Go to next middleware:
 		return c.Next()
 	})
-	// setup routes list
-	routes.AppRoutes(app)
+	// setup initial routes
+	apiV1 := app.Group("/api/v1")
+	apiV1.Get("/test", func(c *fiber.Ctx) error {
+		return c.Status(http.StatusOK).JSON(config.AppResponse(http.StatusOK, "THE API IS RUNNING NOW", nil))
+	})
+	apiV1.Get("/stack", func(c *fiber.Ctx) error {
+		return c.JSON(c.App().Stack())
+	})
+	DBConnection := config.InitDatabase()
+
+	bookRepo := books.NewRepo(DBConnection)
+	bookService := books.NewService(bookRepo)
+	Books.BookRouter(apiV1, bookService)
+
 	// setup not found 404 response
 	config.NotFoundConfig(app)
+
+	// running the app
+	fmt.Println("⚡️ [" + config.GoDotEnvVariable("APPLICATION_ENV") + "] - " + config.GoDotEnvVariable("APP_NAME") + " IS RUNNING ON PORT - " + config.GoDotEnvVariable("APP_PORT"))
 	// start listen app
 	log.Fatal(app.Listen(":" + config.GoDotEnvVariable("APP_PORT")))
+
 }
