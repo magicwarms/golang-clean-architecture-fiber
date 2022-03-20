@@ -17,9 +17,10 @@ type bookRepository struct {
 }
 
 //NewRepo is the single instance repo that is being created.
-func NewRepo(postgresDB *gorm.DB) BookRepository {
+func NewRepo(gormDB *gorm.DB) BookRepository {
+	// gormDB.AutoMigrate()
 	return &bookRepository{
-		table: postgresDB.Table("books"),
+		table: gormDB.Table("books"),
 	}
 }
 
