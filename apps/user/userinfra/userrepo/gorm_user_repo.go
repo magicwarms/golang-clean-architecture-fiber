@@ -10,8 +10,7 @@ type UserRepository struct {
 	db *gorm.DB
 }
 
-//NewRepo is the single instance repo that is being created.
-// inject dari config
+// NewRepo is the single instance repo that is being created.
 func NewUserRepo(gormDB *gorm.DB) *UserRepository {
 	// migrate disini
 	gormDB.AutoMigrate(&gormUserModel{})

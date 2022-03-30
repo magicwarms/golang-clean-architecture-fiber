@@ -18,7 +18,6 @@ func NewUserAppSvc(userrepo *userrepo.UserRepository) *UserAppSvc {
 	}
 }
 
-
 func (service *UserAppSvc) AddNewUser(fullname string) error {
 
 	err := service.userRepo.Save(&userentity.UserEntity{FullName: fullname})

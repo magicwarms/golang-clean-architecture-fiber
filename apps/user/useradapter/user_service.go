@@ -27,6 +27,7 @@ func NewUserService(gormDB *gorm.DB, app *fiber.App) *UserService {
 	}
 }
 
-func (service *UserService) StartUserService() {
+func (service *UserService) StartUserService() *UserService {
 	initUserRestRouter(service)
+	return service
 }

@@ -20,8 +20,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
-func RestApp() {
-
+func StartingRestApp() {
 	numOfCores := runtime.NumCPU()
 	runtime.GOMAXPROCS(numOfCores)
 	// Print current process
@@ -50,7 +49,6 @@ func RestApp() {
 	// will compress the response using gzip, deflate and brotli compression depending on the Accept-Encoding header.
 	app.Use(compress.New())
 	// to enable Cross-Origin Resource Sharing with various options.
-
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
 		AllowHeaders: "Origin, Content-Type, Accept",
@@ -70,10 +68,6 @@ func RestApp() {
 		TimeFormat: "02-Jan-2006 15:04:05",
 		TimeZone:   "Asia/Jakarta",
 	}, logger.Config{}))
-
-	// logger := logger.New()
-
-	// app.Use()
 
 	// To recover from a panic thrown by any handler in the stack
 	app.Use(recover.New())
@@ -99,7 +93,7 @@ func RestApp() {
 		return c.Status(http.StatusOK).JSON(config.AppResponse(http.StatusOK, "THE API IS RUNNING NOW", nil))
 	})
 	apiV1.Get("/stack", func(c *fiber.Ctx) error {
-		return c.JSON(c.App().Stack())
+		return c.Status(http.StatusOK).JSON(c.App().Stack())
 	})
 
 	DBConnection := config.InitDatabase()
@@ -107,12 +101,12 @@ func RestApp() {
 	bookRepo := books.NewRepo(DBConnection)
 	bookService := books.NewService(bookRepo)
 	Books.BookRouter(apiV1, bookService)
-	useradapter.NewUserService(DBConnection, app).StartUserService()
 
-	
+	useradapter.NewUserService(DBConnection, app).StartUserService()
+	// 404 route not found
 	config.NotFoundConfig(app)
+
 	fmt.Println("⚡️ [" + config.GoDotEnvVariable("APPLICATION_ENV") + "] - " + config.GoDotEnvVariable("APP_NAME") + " IS RUNNING ON PORT - " + config.GoDotEnvVariable("APP_PORT"))
 	log.Fatal(app.Listen(":" + config.GoDotEnvVariable("APP_PORT")))
-
 
 }

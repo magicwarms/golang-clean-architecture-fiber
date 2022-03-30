@@ -1,7 +1,7 @@
 package useradapter
 
 func initUserRestRouter(service *UserService) {
-	customerGroup := service.App.Group("/costumer")
+	customerGroup := service.App.Group("/customer")
 
 	v1 := customerGroup.Group("/v1.0.0/user")
 
