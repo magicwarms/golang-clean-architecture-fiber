@@ -27,3 +27,11 @@
 6192 [20-Mar-2022 12:36:58] | [localhost:9000 - 127.0.0.1] | 200 - 73.5181ms - POST | /customer/v1.0.0/user || -
 6192 [20-Mar-2022 12:38:23] | [localhost:9000 - 127.0.0.1] | 200 - 16.6073ms - POST | /customer/v1.0.0/user || -
 10792 [20-Mar-2022 12:58:19] | [localhost:9000 - 127.0.0.1] | 200 - 26.0849ms - POST | /customer/v1.0.0/user || -
+11560 [30-Mar-2022 21:02:04] | [localhost:9000 - 127.0.0.1] | 200 - 18.3942ms - GET | /api/v1/books/list || -
+11560 [30-Mar-2022 21:02:06] | [localhost:9000 - 127.0.0.1] | 200 - 3.4481ms - GET | /api/v1/books/list || -
+9480 [30-Mar-2022 21:30:40] | [localhost:9000 - 127.0.0.1] | 200 - 5.4639ms - GET | /api/v1/books/list || -
+12804 [30-Mar-2022 22:29:28] | [localhost:9000 - 127.0.0.1] | 200 - 3.8408ms - GET | /api/v1/books/list || -
+9940 [30-Mar-2022 22:31:11] | [localhost:9000 - 127.0.0.1] | 500 - 17.4616ms - POST | /api/v1/books/store || -
+11228 [30-Mar-2022 22:32:22] | [localhost:9000 - 127.0.0.1] | 500 - 19.4792ms - POST | /api/v1/books/store || -
+2348 [30-Mar-2022 22:34:50] | [localhost:9000 - 127.0.0.1] | 500 - 10.5059ms - POST | /api/v1/books/store || -
+12292 [30-Mar-2022 22:36:51] | [localhost:9000 - 127.0.0.1] | 500 - 10.5726ms - POST | /api/v1/books/store || -

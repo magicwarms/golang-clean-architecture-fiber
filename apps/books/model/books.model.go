@@ -1,7 +1,8 @@
-package entity
+package model
 
 import (
 	"fmt"
+	"startup-backend/apps/books/entity"
 	"time"
 
 	"gorm.io/gorm"
@@ -14,6 +15,17 @@ type Books struct {
 	CreatedAt time.Time      `json:"createdAt"`
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt"`
+}
+
+func (Books) TableName() string {
+	return "books"
+}
+
+func NewBookModel(book *entity.BookEntity) *Books {
+	return &Books{
+		ID:    string(book.ID),
+		Title: book.Title,
+	}
 }
 
 //DEFINE HOOKS

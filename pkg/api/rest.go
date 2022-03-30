@@ -7,8 +7,9 @@ import (
 	"os"
 	"runtime"
 	"startup-backend/apps/books"
-	Books "startup-backend/apps/books/route"
-	"startup-backend/apps/user/useradapter"
+	"startup-backend/apps/books/handler"
+
+	// "startup-backend/apps/user/useradapter"
 	"startup-backend/config"
 
 	"github.com/gofiber/fiber/v2"
@@ -100,9 +101,9 @@ func StartingRestApp() {
 
 	bookRepo := books.NewRepo(DBConnection)
 	bookService := books.NewService(bookRepo)
-	Books.BookRouter(apiV1, bookService)
+	handler.NewUserHandler(apiV1.Group("/books"), bookService)
 
-	useradapter.NewUserService(DBConnection, app).StartUserService()
+	// useradapter.NewUserService(DBConnection, app).StartUserService()
 	// 404 route not found
 	config.NotFoundConfig(app)
 
