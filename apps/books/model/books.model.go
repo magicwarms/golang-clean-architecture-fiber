@@ -17,6 +17,7 @@ type Books struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt"`
 }
 
+// Set tablename (GORM)
 func (Books) TableName() string {
 	return "books"
 }
