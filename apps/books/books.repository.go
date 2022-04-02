@@ -2,7 +2,6 @@ package books
 
 import (
 	"errors"
-	"fmt"
 	"startup-backend/apps/books/entity"
 	"startup-backend/apps/books/model"
 
@@ -22,7 +21,7 @@ type bookRepository struct {
 
 // NewRepo is the single instance repo that is being created.
 func NewRepo(gormDB *gorm.DB) BookRepository {
-	gormDB.AutoMigrate(&model.Books{})
+	gormDB.AutoMigrate(&model.BookModel{})
 	return &bookRepository{
 		db: gormDB.Table("books"),
 	}
@@ -41,19 +40,10 @@ func (bookRepo *bookRepository) ListBook() (*[]entity.BookEntity, error) {
 // GetBookByName is to get only one book data by nmae
 func (bookRepo *bookRepository) GetBookByName(title string) (*entity.BookEntity, error) {
 	var book entity.BookEntity
-	// result := bookRepo.db.First(&book, "title = ?", title)
-	// if result.Error != gorm.ErrRecordNotFound {
-	// 	return nil, result.Error
-	// }
-
-	if err := bookRepo.db.Where("title = ?", title).First(&book).Error; err != nil {
-		// error handling...
-		fmt.Println("APEEE nIIIIIIIIIIH")
-		if !errors.Is(err, gorm.ErrRecordNotFound) {
-			fmt.Println("APEEE nIIIIIIIIIIH 22222222")
-		}
+	result := bookRepo.db.Where("title = ?", title).First(&book)
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return &entity.BookEntity{}, nil
 	}
-
 	return &book, nil
 }
 
@@ -63,6 +53,5 @@ func (bookRepo *bookRepository) SaveBook(book *entity.BookEntity) error {
 	if err := bookRepo.db.Save(bookModel).Error; err != nil {
 		return err
 	}
-
 	return nil
 }

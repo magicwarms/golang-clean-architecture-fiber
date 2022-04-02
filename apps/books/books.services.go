@@ -1,6 +1,8 @@
 package books
 
 import (
+	"errors"
+	"log"
 	"startup-backend/apps/books/entity"
 )
 
@@ -35,14 +37,15 @@ func (s *bookService) FetchBooks() (*[]entity.BookEntity, error) {
 // InsertBook is a service layer that helps insert book data to database
 func (s *bookService) InsertBook(title string) error {
 	// check book data by name to validate
-	// _, err := s.bookRepository.GetBookByName(title)
-	// // if existed throw an error
-	// if err != nil {
-	// 	return errors.New("title already exists")
-	// }
+	result, _ := s.bookRepository.GetBookByName(title)
+	// if existed throw an error
+	if result.Title != "" {
+		return errors.New("title already exists")
+	}
 	// start to insert the data to database through repository
 	errSave := s.bookRepository.SaveBook(&entity.BookEntity{Title: title})
 	if errSave != nil {
+		log.Println("ERROR DI SAVE WAAAAAAAAAAAAAk")
 		return errSave
 	}
 	return nil

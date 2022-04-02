@@ -39,13 +39,13 @@ func StartingRestApp() {
 		// Enables the Server HTTP header with the given value.
 		ServerHeader: "STARTUP-V1",
 		// Override default error handler
-		ErrorHandler: func(c *fiber.Ctx, err error) error {
-			if err != nil {
-				return c.Status(fiber.StatusInternalServerError).JSON(config.AppResponse(fiber.StatusInternalServerError, "Internal Server Error - "+err.Error(), nil))
-			}
-			// Return from handler
-			return nil
-		},
+		// ErrorHandler: func(c *fiber.Ctx, err error) error {
+		// 	if err != nil {
+		// 		return c.Status(fiber.StatusInternalServerError).JSON(config.ErrorResponse(err))
+		// 	}
+		// 	// Return from handler
+		// 	return nil
+		// },
 	})
 	// will compress the response using gzip, deflate and brotli compression depending on the Accept-Encoding header.
 	app.Use(compress.New())
@@ -91,7 +91,7 @@ func StartingRestApp() {
 	// setup initial routes
 	apiV1 := app.Group("/api/v1")
 	apiV1.Get("/test", func(c *fiber.Ctx) error {
-		return c.Status(http.StatusOK).JSON(config.AppResponse(http.StatusOK, "THE API IS RUNNING NOW", nil))
+		return c.Status(http.StatusOK).JSON(config.AppResponse("THE API IS RUNNING NOW"))
 	})
 	apiV1.Get("/stack", func(c *fiber.Ctx) error {
 		return c.Status(http.StatusOK).JSON(c.App().Stack())
