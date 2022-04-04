@@ -9,24 +9,17 @@ import (
 
 // Book Constructs your Book model under entities.
 type BookModel struct {
-	ID        string `gorm:"default:uuid_generate_v4();primaryKey"`
-	Title     string `gorm:"index"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
+	ID        string         `gorm:"default:uuid_generate_v4();primaryKey" json:"id"`
+	Title     string         `gorm:"index" json:"title"`
+	CreatedAt time.Time      `json:"createdAt"`
+	UpdatedAt time.Time      `json:"updatedAt"`
+	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt"`
 }
 
 // Set tablename (GORM)
 func (BookModel) TableName() string {
 	return "books"
 }
-
-// func NewBookModel(book *entity.BookEntity) *BookModel {
-// 	return &BookModel{
-// 		ID:    string(book.ID),
-// 		Title: book.Title,
-// 	}
-// }
 
 //DEFINE HOOKS
 func (book *BookModel) BeforeCreate(tx *gorm.DB) (err error) {

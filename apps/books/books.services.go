@@ -7,7 +7,7 @@ import (
 
 // BookService is an interface from which our api module can access our repository of all our models
 type BookService interface {
-	FindAll() ([]model.BookModel, error)
+	FindAll() (*[]model.BookModel, error)
 	Save(book *model.BookModel) error
 	// UpdateBook(book *entity.Books) (*entity.Books, error)
 	// RemoveBook(ID string) error
@@ -25,7 +25,7 @@ func NewService(r BookRepository) BookService {
 }
 
 // FetchBooks is a service layer that helps fetch all books in Book table
-func (s *bookService) FindAll() ([]model.BookModel, error) {
+func (s *bookService) FindAll() (*[]model.BookModel, error) {
 	getAllBooks, err := s.bookRepository.ListBook()
 	if err != nil {
 		return nil, err
@@ -36,11 +36,7 @@ func (s *bookService) FindAll() ([]model.BookModel, error) {
 // InsertBook is a service layer that helps insert book data to database
 func (s *bookService) Save(book *model.BookModel) error {
 	// check book data by name to validate
-	result, errGetBookByName := s.bookRepository.GetBookByName(book.Title)
-	if errGetBookByName != nil {
-		return errGetBookByName
-	}
-	// if existed throw an error
+	result, _ := s.bookRepository.GetBookByName(book.Title)
 	if result.Title != "" {
 		return errors.New("title already exists")
 	}

@@ -1,6 +1,7 @@
 package books
 
 import (
+	"errors"
 	"startup-backend/apps/books/model"
 
 	"gorm.io/gorm"
@@ -8,7 +9,7 @@ import (
 
 // BookRepository interface allows us to access the CRUD Operations in postgresQL here.
 type BookRepository interface {
-	ListBook() ([]model.BookModel, error)
+	ListBook() (*[]model.BookModel, error)
 	GetBookByName(title string) (model.BookModel, error)
 	SaveBook(book *model.BookModel) error
 }
@@ -21,31 +22,31 @@ type bookRepository struct {
 func NewRepo(gormDB *gorm.DB) BookRepository {
 	gormDB.AutoMigrate(&model.BookModel{})
 	return &bookRepository{
-		db: gormDB.Table("books"),
+		db: gormDB,
 	}
 }
 
 // GetAllBooks is to get all books data
-func (bookRepo *bookRepository) ListBook() ([]model.BookModel, error) {
+func (bookRepo *bookRepository) ListBook() (*[]model.BookModel, error) {
 	var books []model.BookModel
 	results := bookRepo.db.Find(&books)
 	if results.Error != nil {
 		return nil, results.Error
 	}
-	return books, nil
+	return &books, nil
 }
 
 // GetBookByName is to get only one book data by nmae
 func (bookRepo *bookRepository) GetBookByName(title string) (model.BookModel, error) {
 	var book model.BookModel
-	result := bookRepo.db.Where("title = ?", title).Limit(1).Find(&book)
+	result := bookRepo.db.Where("title = ?", title).Take(&book)
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return model.BookModel{}, result.Error
+	}
 	if result.Error != nil {
 		return model.BookModel{}, result.Error
 	}
-	if result.RowsAffected > 0 {
-		return book, nil
-	}
-	return model.BookModel{}, nil
+	return book, nil
 }
 
 // SaveBook is to save book data based on user input
