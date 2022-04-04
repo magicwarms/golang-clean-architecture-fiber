@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	"startup-backend/apps/books"
+	"startup-backend/apps/books/model"
 	"startup-backend/config"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,14 +11,14 @@ import (
 
 func NewUserHandler(book fiber.Router, bookService books.BookService) {
 	book.Get("/list", GetAllBooks(bookService))
-	book.Post("/store", CreateBook(bookService))
+	book.Post("/store", AddNewBook(bookService))
 	// book.Get("/:userId", getUser(bookService))
 }
 
 // GetAllBooks is to get all books data
 func GetAllBooks(bookService books.BookService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		getAllBooks, err := bookService.FetchBooks()
+		getAllBooks, err := bookService.FindAll()
 		if err != nil {
 			return c.Status(http.StatusInternalServerError).JSON(config.ErrorResponse(err))
 		}
@@ -26,16 +27,15 @@ func GetAllBooks(bookService books.BookService) fiber.Handler {
 }
 
 // CreateBook is store book data into database
-func CreateBook(bookService books.BookService) fiber.Handler {
+func AddNewBook(bookService books.BookService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		bookDTO := new(struct {
-			Title string `json:"title"`
-		})
-		if err := c.BodyParser(bookDTO); err != nil {
+		var bookDTO model.BookModel
+		// kenapa pakai DAN
+		if err := c.BodyParser(&bookDTO); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(config.ErrorResponse(err))
 		}
 
-		err := bookService.InsertBook(bookDTO.Title)
+		err := bookService.Save(&bookDTO)
 		if err != nil {
 			return c.Status(http.StatusInternalServerError).JSON(config.ErrorResponse(err))
 		}

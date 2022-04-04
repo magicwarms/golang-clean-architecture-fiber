@@ -2,7 +2,6 @@ package model
 
 import (
 	"fmt"
-	"startup-backend/apps/books/entity"
 	"time"
 
 	"gorm.io/gorm"
@@ -22,12 +21,12 @@ func (BookModel) TableName() string {
 	return "books"
 }
 
-func NewBookModel(book *entity.BookEntity) *BookModel {
-	return &BookModel{
-		ID:    string(book.ID),
-		Title: book.Title,
-	}
-}
+// func NewBookModel(book *entity.BookEntity) *BookModel {
+// 	return &BookModel{
+// 		ID:    string(book.ID),
+// 		Title: book.Title,
+// 	}
+// }
 
 //DEFINE HOOKS
 func (book *BookModel) BeforeCreate(tx *gorm.DB) (err error) {

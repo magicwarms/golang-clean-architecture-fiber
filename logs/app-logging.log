@@ -143,3 +143,87 @@
 18664 [02-Apr-2022 13:24:12] | [localhost:9000 - 127.0.0.1] | 201 - 4.2489ms - POST | /api/v1/books/store || -
 14064 [02-Apr-2022 13:26:18] | [localhost:9000 - 127.0.0.1] | 201 - 6.3664ms - POST | /api/v1/books/store || -
 18656 [02-Apr-2022 13:30:38] | [localhost:9000 - 127.0.0.1] | 201 - 4.9928ms - POST | /api/v1/books/store || -
+5416 [04-Apr-2022 09:24:37] | [localhost:9000 - 127.0.0.1] | 200 - 4.9787ms - GET | /api/v1/books/list || -
+5416 [04-Apr-2022 09:24:44] | [localhost:9000 - 127.0.0.1] | 500 - 40.6353ms - POST | /api/v1/books/store || -
+13272 [04-Apr-2022 09:34:38] | [localhost:9000 - 127.0.0.1] | 201 - 84.0475ms - POST | /api/v1/books/store || -
+19160 [04-Apr-2022 09:37:40] | [localhost:9000 - 127.0.0.1] | 201 - 17.496ms - POST | /api/v1/books/store || -
+4316 [04-Apr-2022 09:46:02] | [localhost:9000 - 127.0.0.1] | 500 - 3.9753ms - POST | /api/v1/books/store || -
+4316 [04-Apr-2022 09:46:11] | [localhost:9000 - 127.0.0.1] | 500 - 6.6837ms - POST | /api/v1/books/store || -
+14064 [04-Apr-2022 09:49:12] | [localhost:9000 - 127.0.0.1] | 500 - 4.912ms - POST | /api/v1/books/store || -
+18768 [04-Apr-2022 09:50:19] | [localhost:9000 - 127.0.0.1] | 500 - 3.5091ms - POST | /api/v1/books/store || -
+16724 [04-Apr-2022 09:52:34] | [localhost:9000 - 127.0.0.1] | 500 - 5.2498ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+16724 [04-Apr-2022 09:53:00] | [localhost:9000 - 127.0.0.1] | 500 - 999.7µs - GET | /api/v1/books/list || -
+16724 [04-Apr-2022 09:53:02] | [localhost:9000 - 127.0.0.1] | 500 - 0s - GET | /api/v1/books/list || -
+16724 [04-Apr-2022 09:53:07] | [localhost:9000 - 127.0.0.1] | 500 - 0s - GET | /api/v1/books/list || -
+16724 [04-Apr-2022 09:53:09] | [localhost:9000 - 127.0.0.1] | 500 - 0s - GET | /api/v1/books/list || -
+16724 [04-Apr-2022 09:53:12] | [localhost:9000 - 127.0.0.1] | 500 - 472.9µs - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+12436 [04-Apr-2022 09:55:14] | [localhost:9000 - 127.0.0.1] | 201 - 19.5193ms - POST | /api/v1/books/store || -
+12436 [04-Apr-2022 09:55:19] | [localhost:9000 - 127.0.0.1] | 200 - 2.4701ms - GET | /api/v1/books/list || -
+12436 [04-Apr-2022 09:55:28] | [localhost:9000 - 127.0.0.1] | 500 - 4.8224ms - POST | /api/v1/books/store || -
+12436 [04-Apr-2022 09:55:31] | [localhost:9000 - 127.0.0.1] | 200 - 2.9686ms - GET | /api/v1/books/list || -
+12436 [04-Apr-2022 09:55:57] | [localhost:9000 - 127.0.0.1] | 201 - 22.069ms - POST | /api/v1/books/store || -
+2932 [04-Apr-2022 09:57:20] | [localhost:9000 - 127.0.0.1] | 500 - 3.022ms - POST | /api/v1/books/store || -
+2932 [04-Apr-2022 09:57:23] | [localhost:9000 - 127.0.0.1] | 500 - 2.212ms - POST | /api/v1/books/store || -
+2932 [04-Apr-2022 09:57:27] | [localhost:9000 - 127.0.0.1] | 200 - 2.5307ms - GET | /api/v1/books/list || -
+20972 [04-Apr-2022 09:58:22] | [localhost:9000 - 127.0.0.1] | 201 - 48.4137ms - POST | /api/v1/books/store || -
+20972 [04-Apr-2022 09:58:28] | [localhost:9000 - 127.0.0.1] | 200 - 3.8333ms - GET | /api/v1/books/list || -
+2792 [04-Apr-2022 10:03:04] | [localhost:9000 - 127.0.0.1] | 200 - 7.4761ms - GET | /api/v1/books/list || -
+2792 [04-Apr-2022 10:03:09] | [localhost:9000 - 127.0.0.1] | 500 - 3.2491ms - POST | /api/v1/books/store || -
+2792 [04-Apr-2022 10:03:11] | [localhost:9000 - 127.0.0.1] | 200 - 2.086ms - GET | /api/v1/books/list || -
+9952 [04-Apr-2022 10:10:31] | [localhost:9000 - 127.0.0.1] | 500 - 5.6206ms - POST | /api/v1/books/store || -
+9952 [04-Apr-2022 10:10:33] | [localhost:9000 - 127.0.0.1] | 500 - 4.3303ms - POST | /api/v1/books/store || -
+9952 [04-Apr-2022 10:10:34] | [localhost:9000 - 127.0.0.1] | 500 - 2.7128ms - POST | /api/v1/books/store || -
+9952 [04-Apr-2022 10:10:36] | [localhost:9000 - 127.0.0.1] | 200 - 4.0088ms - GET | /api/v1/books/list || -
+9952 [04-Apr-2022 10:10:38] | [localhost:9000 - 127.0.0.1] | 200 - 2.0453ms - GET | /api/v1/books/list || -
+19908 [04-Apr-2022 10:12:13] | [localhost:9000 - 127.0.0.1] | 200 - 4.8769ms - GET | /api/v1/books/list || -
+19908 [04-Apr-2022 10:12:19] | [localhost:9000 - 127.0.0.1] | 500 - 4.2013ms - POST | /api/v1/books/store || -
+19908 [04-Apr-2022 10:12:21] | [localhost:9000 - 127.0.0.1] | 200 - 2.2678ms - GET | /api/v1/books/list || -
+17876 [04-Apr-2022 10:13:39] | [localhost:9000 - 127.0.0.1] | 200 - 3.9878ms - GET | /api/v1/books/list || -
+17876 [04-Apr-2022 10:13:41] | [localhost:9000 - 127.0.0.1] | 200 - 1.1355ms - GET | /api/v1/books/list || -
+17876 [04-Apr-2022 10:13:44] | [localhost:9000 - 127.0.0.1] | 500 - 6.2764ms - POST | /api/v1/books/store || -
+17876 [04-Apr-2022 10:13:47] | [localhost:9000 - 127.0.0.1] | 200 - 1.9692ms - GET | /api/v1/books/list || -
+17876 [04-Apr-2022 10:13:48] | [localhost:9000 - 127.0.0.1] | 200 - 4.7426ms - GET | /api/v1/books/list || -
+10016 [04-Apr-2022 10:14:28] | [localhost:9000 - 127.0.0.1] | 200 - 4.3861ms - GET | /api/v1/books/list || -
+10016 [04-Apr-2022 10:14:32] | [localhost:9000 - 127.0.0.1] | 201 - 21.4775ms - POST | /api/v1/books/store || -
+10016 [04-Apr-2022 10:14:36] | [localhost:9000 - 127.0.0.1] | 200 - 2.6564ms - GET | /api/v1/books/list || -
+18772 [04-Apr-2022 10:34:46] | [localhost:9000 - 127.0.0.1] | 500 - 5.1899ms - POST | /api/v1/books/store || -
+18772 [04-Apr-2022 10:34:48] | [localhost:9000 - 127.0.0.1] | 200 - 2.6939ms - GET | /api/v1/books/list || -
+18772 [04-Apr-2022 10:34:49] | [localhost:9000 - 127.0.0.1] | 200 - 3.8305ms - GET | /api/v1/books/list || -
+3572 [04-Apr-2022 10:40:11] | [localhost:9000 - 127.0.0.1] | 200 - 5.4088ms - GET | /api/v1/books/list || -
+3572 [04-Apr-2022 10:40:17] | [localhost:9000 - 127.0.0.1] | 500 - 4.0604ms - POST | /api/v1/books/store || -
+3572 [04-Apr-2022 10:40:19] | [localhost:9000 - 127.0.0.1] | 200 - 2.0673ms - GET | /api/v1/books/list || -
+3572 [04-Apr-2022 10:42:18] | [localhost:9000 - 127.0.0.1] | 500 - 2.9722ms - POST | /api/v1/books/store || -
+3572 [04-Apr-2022 10:42:21] | [localhost:9000 - 127.0.0.1] | 200 - 2.1327ms - GET | /api/v1/books/list || -
+14720 [04-Apr-2022 10:44:36] | [localhost:9000 - 127.0.0.1] | 200 - 2.8919ms - GET | /api/v1/books/list || -
+14720 [04-Apr-2022 10:44:36] | [localhost:9000 - 127.0.0.1] | 200 - 2.2637ms - GET | /api/v1/books/list || -
+14720 [04-Apr-2022 10:44:40] | [localhost:9000 - 127.0.0.1] | 500 - 4.3794ms - POST | /api/v1/books/store || -
+14720 [04-Apr-2022 10:44:42] | [localhost:9000 - 127.0.0.1] | 200 - 3.12ms - GET | /api/v1/books/list || -
+8492 [04-Apr-2022 10:46:12] | [localhost:9000 - 127.0.0.1] | 200 - 3.7807ms - GET | /api/v1/books/list || -
+8492 [04-Apr-2022 10:46:13] | [localhost:9000 - 127.0.0.1] | 200 - 5.4111ms - GET | /api/v1/books/list || -
+8492 [04-Apr-2022 10:46:15] | [localhost:9000 - 127.0.0.1] | 500 - 3.4323ms - POST | /api/v1/books/store || -
+8492 [04-Apr-2022 10:46:17] | [localhost:9000 - 127.0.0.1] | 200 - 2.3158ms - GET | /api/v1/books/list || -
+6040 [04-Apr-2022 10:46:41] | [localhost:9000 - 127.0.0.1] | 500 - 8.0501ms - POST | /api/v1/books/store || -
+6040 [04-Apr-2022 10:46:46] | [localhost:9000 - 127.0.0.1] | 200 - 3.159ms - GET | /api/v1/books/list || -
+6040 [04-Apr-2022 10:46:47] | [localhost:9000 - 127.0.0.1] | 200 - 2.2435ms - GET | /api/v1/books/list || -
+6040 [04-Apr-2022 10:50:44] | [localhost:9000 - 127.0.0.1] | 500 - 5.1817ms - POST | /api/v1/books/store || -
+10724 [04-Apr-2022 10:51:26] | [localhost:9000 - 127.0.0.1] | 500 - 4.5657ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+10724 [04-Apr-2022 10:51:36] | [localhost:9000 - 127.0.0.1] | 200 - 2.7936ms - GET | /api/v1/books/list || -
+10724 [04-Apr-2022 10:51:41] | [localhost:9000 - 127.0.0.1] | 500 - 2.7869ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+11928 [04-Apr-2022 10:52:00] | [localhost:9000 - 127.0.0.1] | 200 - 4.3694ms - GET | /api/v1/books/list || -
+11928 [04-Apr-2022 10:52:04] | [localhost:9000 - 127.0.0.1] | 500 - 4.9316ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+6360 [04-Apr-2022 10:57:52] | [localhost:9000 - 127.0.0.1] | 400 - 1.0394ms - POST | /api/v1/books/store || -
+5140 [04-Apr-2022 11:00:15] | [localhost:9000 - 127.0.0.1] | 500 - 3.7948ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+5140 [04-Apr-2022 11:00:16] | [localhost:9000 - 127.0.0.1] | 500 - 2.7057ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+5140 [04-Apr-2022 11:00:23] | [localhost:9000 - 127.0.0.1] | 500 - 1.9538ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+5140 [04-Apr-2022 11:00:25] | [localhost:9000 - 127.0.0.1] | 200 - 3.1194ms - GET | /api/v1/books/list || -
+5140 [04-Apr-2022 11:00:26] | [localhost:9000 - 127.0.0.1] | 200 - 2.3691ms - GET | /api/v1/books/list || -
+13052 [04-Apr-2022 11:01:52] | [localhost:9000 - 127.0.0.1] | 500 - 4.4039ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+13052 [04-Apr-2022 11:01:53] | [localhost:9000 - 127.0.0.1] | 500 - 2.5839ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+20408 [04-Apr-2022 11:10:16] | [localhost:9000 - 127.0.0.1] | 200 - 4.2697ms - GET | /api/v1/books/list || -
+20408 [04-Apr-2022 11:10:20] | [localhost:9000 - 127.0.0.1] | 500 - 2.8069ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+7660 [04-Apr-2022 11:10:37] | [localhost:9000 - 127.0.0.1] | 500 - 3.2347ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+12624 [04-Apr-2022 11:10:54] | [localhost:9000 - 127.0.0.1] | 200 - 4.8029ms - GET | /api/v1/books/list || -
+12624 [04-Apr-2022 11:10:57] | [localhost:9000 - 127.0.0.1] | 200 - 6.8183ms - GET | /api/v1/books/list || -
+12624 [04-Apr-2022 11:10:58] | [localhost:9000 - 127.0.0.1] | 200 - 2.0113ms - GET | /api/v1/books/list || -
+12624 [04-Apr-2022 11:11:00] | [localhost:9000 - 127.0.0.1] | 500 - 3.3807ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+12624 [04-Apr-2022 11:11:16] | [localhost:9000 - 127.0.0.1] | 500 - 2.6915ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
