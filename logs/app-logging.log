@@ -227,3 +227,21 @@
 12624 [04-Apr-2022 11:10:58] | [localhost:9000 - 127.0.0.1] | 200 - 2.0113ms - GET | /api/v1/books/list || -
 12624 [04-Apr-2022 11:11:00] | [localhost:9000 - 127.0.0.1] | 500 - 3.3807ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
 12624 [04-Apr-2022 11:11:16] | [localhost:9000 - 127.0.0.1] | 500 - 2.6915ms - POST | /api/v1/books/store || runtime error: invalid memory address or nil pointer dereference
+3288 [04-Apr-2022 11:12:15] | [localhost:9000 - 127.0.0.1] | 200 - 4.2139ms - GET | /api/v1/books/list || -
+3288 [04-Apr-2022 11:12:18] | [localhost:9000 - 127.0.0.1] | 201 - 65.665ms - POST | /api/v1/books/store || -
+3288 [04-Apr-2022 11:12:23] | [localhost:9000 - 127.0.0.1] | 200 - 2.1243ms - GET | /api/v1/books/list || -
+3288 [04-Apr-2022 11:17:02] | [localhost:9000 - 127.0.0.1] | 500 - 3.1306ms - POST | /api/v1/books/store || -
+3288 [04-Apr-2022 11:17:05] | [localhost:9000 - 127.0.0.1] | 200 - 3.0827ms - GET | /api/v1/books/list || -
+16348 [04-Apr-2022 11:29:13] | [localhost:9000 - 127.0.0.1] | 500 - 4.6736ms - POST | /api/v1/books/store || -
+16348 [04-Apr-2022 11:29:16] | [localhost:9000 - 127.0.0.1] | 500 - 2.9226ms - POST | /api/v1/books/store || -
+16348 [04-Apr-2022 11:29:19] | [localhost:9000 - 127.0.0.1] | 200 - 2.1898ms - GET | /api/v1/books/list || -
+16348 [04-Apr-2022 11:39:11] | [localhost:9000 - 127.0.0.1] | 200 - 2.2805ms - GET | /api/v1/books/list || -
+17452 [04-Apr-2022 13:33:06] | [localhost:9000 - 127.0.0.1] | 200 - 18.0099ms - GET | /api/v1/books/list || -
+17452 [04-Apr-2022 13:33:29] | [localhost:9000 - 127.0.0.1] | 500 - 3.6777ms - POST | /api/v1/books/store || -
+17452 [04-Apr-2022 13:33:52] | [localhost:9000 - 127.0.0.1] | 200 - 2.5063ms - GET | /api/v1/books/list || -
+17452 [04-Apr-2022 13:34:15] | [localhost:9000 - 127.0.0.1] | 201 - 31.8917ms - POST | /api/v1/books/store || -
+17452 [04-Apr-2022 13:34:25] | [localhost:9000 - 127.0.0.1] | 200 - 2.4918ms - GET | /api/v1/books/list || -
+17452 [04-Apr-2022 13:35:48] | [localhost:9000 - 127.0.0.1] | 200 - 3.3441ms - GET | /api/v1/books/list || -
+9268 [04-Apr-2022 13:38:56] | [localhost:9000 - 127.0.0.1] | 200 - 5.0044ms - GET | /api/v1/books/list || -
+9268 [04-Apr-2022 13:39:01] | [localhost:9000 - 127.0.0.1] | 500 - 4.0038ms - POST | /api/v1/books/store || -
+9268 [04-Apr-2022 13:39:05] | [localhost:9000 - 127.0.0.1] | 200 - 2.1217ms - GET | /api/v1/books/list || -

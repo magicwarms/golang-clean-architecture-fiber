@@ -8,7 +8,7 @@ import (
 
 // BookRepository interface allows us to access the CRUD Operations in postgresQL here.
 type BookRepository interface {
-	ListBook() ([]*model.BookModel, error)
+	ListBook() ([]model.BookModel, error)
 	GetBookByName(title string) (model.BookModel, error)
 	SaveBook(book *model.BookModel) error
 }
@@ -26,8 +26,8 @@ func NewRepo(gormDB *gorm.DB) BookRepository {
 }
 
 // GetAllBooks is to get all books data
-func (bookRepo *bookRepository) ListBook() ([]*model.BookModel, error) {
-	var books []*model.BookModel
+func (bookRepo *bookRepository) ListBook() ([]model.BookModel, error) {
+	var books []model.BookModel
 	results := bookRepo.db.Find(&books)
 	if results.Error != nil {
 		return nil, results.Error
