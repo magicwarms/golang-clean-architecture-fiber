@@ -101,9 +101,8 @@ func StartingRestApp() {
 
 	bookRepo := books.NewRepo(DBConnection)
 	bookService := books.NewService(bookRepo)
-	handler.NewUserHandler(apiV1.Group("/books"), bookService)
+	handler.NewBookHandler(apiV1.Group("/books"), bookService)
 
-	// useradapter.NewUserService(DBConnection, app).StartUserService()
 	// 404 route not found
 	config.NotFoundConfig(app)
 

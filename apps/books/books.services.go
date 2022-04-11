@@ -10,7 +10,7 @@ type BookService interface {
 	FindAll() (*[]model.BookModel, error)
 	Save(book *model.BookModel) error
 	// UpdateBook(book *entity.Books) (*entity.Books, error)
-	// RemoveBook(ID string) error
+	Delete(ID string) error
 }
 
 type bookService struct {
@@ -24,7 +24,7 @@ func NewService(r BookRepository) BookService {
 	}
 }
 
-// FetchBooks is a service layer that helps fetch all books in Book table
+// FindAll is a service layer that helps fetch all books in Book table
 func (s *bookService) FindAll() (*[]model.BookModel, error) {
 	getAllBooks, err := s.bookRepository.ListBook()
 	if err != nil {
@@ -33,7 +33,7 @@ func (s *bookService) FindAll() (*[]model.BookModel, error) {
 	return getAllBooks, nil
 }
 
-// InsertBook is a service layer that helps insert book data to database
+// Save is a service layer that helps insert book data to database
 func (s *bookService) Save(book *model.BookModel) error {
 	// check book data by name to validate
 	result, _ := s.bookRepository.GetBookByName(book.Title)
@@ -42,6 +42,21 @@ func (s *bookService) Save(book *model.BookModel) error {
 	}
 	// start to insert the data to database through repository
 	errSave := s.bookRepository.SaveBook(book)
+	if errSave != nil {
+		return errSave
+	}
+	return nil
+}
+
+// Save is a service layer that helps insert book data to database
+func (s *bookService) Delete(id string) error {
+	// check book data by name to validate
+	result, _ := s.bookRepository.GetBookById(id)
+	if result.ID == "" {
+		return errors.New("ID not found")
+	}
+	// start to insert the data to database through repository
+	errSave := s.bookRepository.DeleteBook(id)
 	if errSave != nil {
 		return errSave
 	}

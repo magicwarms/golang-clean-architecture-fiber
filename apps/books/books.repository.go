@@ -11,7 +11,9 @@ import (
 type BookRepository interface {
 	ListBook() (*[]model.BookModel, error)
 	GetBookByName(title string) (model.BookModel, error)
+	GetBookById(id string) (model.BookModel, error)
 	SaveBook(book *model.BookModel) error
+	DeleteBook(id string) error
 }
 
 type bookRepository struct {
@@ -36,12 +38,12 @@ func (bookRepo *bookRepository) ListBook() (*[]model.BookModel, error) {
 	return &books, nil
 }
 
-// GetBookByName is to get only one book data by nmae
+// GetBookByName is to get only one book data by name
 func (bookRepo *bookRepository) GetBookByName(title string) (model.BookModel, error) {
 	var book model.BookModel
 	result := bookRepo.db.Where("title = ?", title).Take(&book)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-		return model.BookModel{}, result.Error
+		return model.BookModel{}, nil
 	}
 	if result.Error != nil {
 		return model.BookModel{}, result.Error
@@ -55,6 +57,30 @@ func (bookRepo *bookRepository) SaveBook(book *model.BookModel) error {
 		Title: book.Title,
 	}
 	if err := bookRepo.db.Create(&bookModel).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetBookById is to get only one book data by ID
+func (bookRepo *bookRepository) GetBookById(id string) (model.BookModel, error) {
+	var book model.BookModel
+	result := bookRepo.db.Where("id = ?", id).Take(&book)
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return model.BookModel{}, nil
+	}
+	if result.Error != nil {
+		return model.BookModel{}, result.Error
+	}
+	return book, nil
+}
+
+// DeleteBook is to save book data based on user input
+func (bookRepo *bookRepository) DeleteBook(id string) error {
+	bookModel := model.BookModel{
+		ID: id,
+	}
+	if err := bookRepo.db.Delete(&bookModel).Error; err != nil {
 		return err
 	}
 	return nil
