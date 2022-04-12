@@ -39,9 +39,9 @@ func GoDotEnvVariable(key string) string {
 // AppResponse is for response config show to Frontend side
 func AppResponse(data interface{}) *fiber.Map {
 	return &fiber.Map{
-		"status": true,
-		"data":   data,
-		"error":  nil,
+		"success": true,
+		"data":    data,
+		"error":   nil,
 	}
 }
 
@@ -70,8 +70,8 @@ func PrettyPrint(i interface{}) string {
 // ErrorResponse is for response error
 func ErrorResponse(err error) *fiber.Map {
 	return &fiber.Map{
-		"status": false,
-		"data":   nil,
-		"error":  err.Error(),
+		"success": false,
+		"data":    nil,
+		"error":   err.Error(),
 	}
 }

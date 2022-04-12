@@ -6,8 +6,7 @@ import (
 	"net/http"
 	"os"
 	"runtime"
-	"startup-backend/apps/books"
-	"startup-backend/apps/books/handler"
+	"startup-backend/apps/infrastructure"
 
 	// "startup-backend/apps/user/useradapter"
 	"startup-backend/config"
@@ -38,14 +37,6 @@ func StartingRestApp() {
 		Prefork: enablePrefork,
 		// Enables the Server HTTP header with the given value.
 		ServerHeader: "STARTUP-V1",
-		// Override default error handler
-		// ErrorHandler: func(c *fiber.Ctx, err error) error {
-		// 	if err != nil {
-		// 		return c.Status(fiber.StatusInternalServerError).JSON(config.ErrorResponse(err))
-		// 	}
-		// 	// Return from handler
-		// 	return nil
-		// },
 	})
 	// will compress the response using gzip, deflate and brotli compression depending on the Accept-Encoding header.
 	app.Use(compress.New())
@@ -91,17 +82,15 @@ func StartingRestApp() {
 	// setup initial routes
 	apiV1 := app.Group("/api/v1")
 	apiV1.Get("/test", func(c *fiber.Ctx) error {
-		return c.Status(http.StatusOK).JSON(config.AppResponse("THE API IS RUNNING NOW"))
+		return c.Status(http.StatusOK).JSON(config.AppResponse("⚡️ [" + config.GoDotEnvVariable("APPLICATION_ENV") + "] - " + config.GoDotEnvVariable("APP_NAME") + " API is running now"))
 	})
 	apiV1.Get("/stack", func(c *fiber.Ctx) error {
 		return c.Status(http.StatusOK).JSON(c.App().Stack())
 	})
-
+	// set up DB connection here
 	DBConnection := config.InitDatabase()
-
-	bookRepo := books.NewRepo(DBConnection)
-	bookService := books.NewService(bookRepo)
-	handler.NewBookHandler(apiV1.Group("/books"), bookService)
+	// set dispatch to the main router
+	infrastructure.Dispatch(DBConnection, apiV1)
 
 	// 404 route not found
 	config.NotFoundConfig(app)
