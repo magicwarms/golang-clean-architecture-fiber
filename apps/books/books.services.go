@@ -9,8 +9,9 @@ import (
 type BookService interface {
 	FindAll() (*[]model.BookModel, error)
 	Save(book *model.BookModel) error
-	// UpdateBook(book *entity.Books) (*entity.Books, error)
+	Update(book *model.BookModel) (*model.BookModel, error)
 	Delete(ID string) error
+	Get(ID string) (*model.BookModel, error)
 }
 
 type bookService struct {
@@ -61,4 +62,28 @@ func (s *bookService) Delete(id string) error {
 		return errSave
 	}
 	return nil
+}
+
+// getBook is a service layer that helps get book data
+func (s *bookService) Get(id string) (*model.BookModel, error) {
+	getBook, err := s.bookRepository.GetBookById(id)
+	if err != nil {
+		return &model.BookModel{}, err
+	}
+	return &getBook, nil
+}
+
+// Update is a service layer that helps update book data to database
+func (s *bookService) Update(book *model.BookModel) (*model.BookModel, error) {
+	// check book data by name to validate
+	result, _ := s.bookRepository.GetBookById(book.ID)
+	if result.ID == "" {
+		return &model.BookModel{}, errors.New("ID not found")
+	}
+	// start to insert the data to database through repository
+	errUpdate := s.bookRepository.UpdateBook(book)
+	if errUpdate != nil {
+		return &model.BookModel{}, errUpdate
+	}
+	return book, nil
 }

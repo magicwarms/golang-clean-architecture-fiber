@@ -13,6 +13,7 @@ type BookRepository interface {
 	GetBookByName(title string) (model.BookModel, error)
 	GetBookById(id string) (model.BookModel, error)
 	SaveBook(book *model.BookModel) error
+	UpdateBook(book *model.BookModel) error
 	DeleteBook(id string) error
 }
 
@@ -31,7 +32,7 @@ func NewRepo(gormDB *gorm.DB) BookRepository {
 // GetAllBooks is to get all books data
 func (bookRepo *bookRepository) ListBook() (*[]model.BookModel, error) {
 	var books []model.BookModel
-	results := bookRepo.db.Find(&books)
+	results := bookRepo.db.Order("created_at").Find(&books)
 	if results.Error != nil {
 		return nil, results.Error
 	}
@@ -81,6 +82,14 @@ func (bookRepo *bookRepository) DeleteBook(id string) error {
 		ID: id,
 	}
 	if err := bookRepo.db.Delete(&bookModel).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+// UpdateBook is to update book data based on user input
+func (bookRepo *bookRepository) UpdateBook(book *model.BookModel) error {
+	if err := bookRepo.db.Model(&book).Where("id = ?", book.ID).Update("title", book.Title).Error; err != nil {
 		return err
 	}
 	return nil

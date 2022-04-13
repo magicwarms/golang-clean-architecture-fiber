@@ -9,6 +9,7 @@ import (
 )
 
 func Dispatch(DBConnection *gorm.DB, apiV1 fiber.Router) {
+	// BOOK
 	bookRepo := books.NewRepo(DBConnection)
 	bookService := books.NewService(bookRepo)
 	handler.NewBookHandler(apiV1.Group("/books"), bookService)
