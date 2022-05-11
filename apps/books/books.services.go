@@ -5,6 +5,16 @@ import (
 	"startup-backend/apps/books/model"
 )
 
+// BookRepository interface allows us to access the CRUD Operations in postgresQL here.
+type BookRepository interface {
+	ListBook() (*[]model.BookModel, error)
+	GetBookByName(title string) (model.BookModel, error)
+	GetBookById(id string) (model.BookModel, error)
+	SaveBook(book *model.BookModel) error
+	UpdateBook(book *model.BookModel) error
+	DeleteBook(id string) error
+}
+
 // BookService is an interface from which our api module can access our repository of all our models
 type BookService interface {
 	FindAll() (*[]model.BookModel, error)

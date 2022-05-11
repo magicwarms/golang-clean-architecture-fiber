@@ -7,22 +7,13 @@ import (
 	"gorm.io/gorm"
 )
 
-// BookRepository interface allows us to access the CRUD Operations in postgresQL here.
-type BookRepository interface {
-	ListBook() (*[]model.BookModel, error)
-	GetBookByName(title string) (model.BookModel, error)
-	GetBookById(id string) (model.BookModel, error)
-	SaveBook(book *model.BookModel) error
-	UpdateBook(book *model.BookModel) error
-	DeleteBook(id string) error
-}
 
 type bookRepository struct {
 	db *gorm.DB
 }
 
 // NewRepo is the single instance repo that is being created.
-func NewRepo(gormDB *gorm.DB) BookRepository {
+func NewRepo(gormDB *gorm.DB) *bookRepository {
 	gormDB.AutoMigrate(&model.BookModel{})
 	return &bookRepository{
 		db: gormDB,
